@@ -83,13 +83,6 @@ class Sale
     public function sell(array $products, Customer $customer, ProductCalculator $productCalculator)
     {
         $value = $productCalculator->calculateTotalValue($products);
-
-        if (!$customer->getAccount()->haveBalanceAvailable($value)) {
-            throw new NoBalanceAvailableException();
-        }
-
-        /*..... something.....*/
-
         
         $customer->getAccount()->debit($value);
     }
