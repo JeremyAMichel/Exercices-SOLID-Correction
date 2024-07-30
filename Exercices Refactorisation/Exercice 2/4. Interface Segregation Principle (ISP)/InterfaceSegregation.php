@@ -2,16 +2,17 @@
 
 namespace ISPViolation;
 
-
-interface IWorker
+interface IWorkable
 {
     public function work();
+}
 
+interface IEatable
+{
     public function eat();
 }
 
-
-class Worker implements IWorker
+class Worker implements IWorkable, IEatable
 {
     public function work()
     {
@@ -25,16 +26,11 @@ class Worker implements IWorker
 }
 
 
-class Robot implements IWorker
+class Robot implements IWorkable
 {
 
     public function work()
     {
         // working 24 hours per day
-    }
-
-    public function eat()
-    {
-        // doesn't need this method
     }
 }
