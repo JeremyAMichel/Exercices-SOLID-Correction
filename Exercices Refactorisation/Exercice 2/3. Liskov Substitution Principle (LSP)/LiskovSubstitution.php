@@ -2,7 +2,12 @@
 
 namespace LSPViolation;
 
-class Rectangle
+interface Shape
+{
+    public function getArea();
+}
+
+class Rectangle implements Shape
 {
     /** @var  integer */
     protected $width;
@@ -34,33 +39,34 @@ class Rectangle
     }
 }
 
-class Square extends Rectangle
+class Square implements Shape
 {
+    /** @var  integer */
+    private $side;
+
     /**
-     * @param $width
+     * @param $side
      */
-    public function setWidth($width)
+    public function setSide($side)
     {
-        $this->width = $width;
-        $this->height = $width;
+        $this->side = $side;
     }
 
     /**
-     * @param $height
+     * @return mixed
      */
-    public function setHeight($height)
+    public function getArea()
     {
-        $this->height = $height;
-        $this->width = $height;
+        return $this->side * $this->side;
     }
 }
 
 class TestLS
 {
-    /**
-     * @return Rectangle
+   /**
+     * @return Shape
      */
-    private static function getNewRectangle()
+    private static function getNewShape()
     {
         return new Square();
     }
@@ -70,15 +76,16 @@ class TestLS
      */
     public static function test()
     {
-        $rectangle = self::getNewRectangle();
-        $rectangle->setHeight(5);
-        $rectangle->setWidth(10);
-        // user knows that $rectangle it's a rectangle.
-        // It assumes that he's able to set the width and height as for the base class
+        $shape = self::getNewShape();
+        
+        if ($shape instanceof Square) {
+            $shape->setSide(5);
+        } elseif ($shape instanceof Rectangle) {
+            $shape->setHeight(5);
+            $shape->setWidth(10);
+        }
 
-
-        echo $rectangle->getArea();
-        // now he is surprised to see that the area is 100 instead of 50.
+        echo $shape->getArea();
     }
 }
 
